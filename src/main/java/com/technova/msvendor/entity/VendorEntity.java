@@ -135,4 +135,17 @@ public class VendorEntity {
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
+
+    public VendorEntity(String companyName, String companyType, String companyRegistrationNumber, String name, String username, String email, String password, String role, Address address, PhoneNumber phoneNumber) {
+        this.companyName = companyName;
+        this.companyType = companyType;
+        this.companyRegistrationNumber = companyRegistrationNumber;
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
 }
