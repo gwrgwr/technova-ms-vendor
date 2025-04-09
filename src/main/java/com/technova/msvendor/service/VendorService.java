@@ -16,6 +16,4 @@ public class VendorService {
     public void saveVendor(VendorEntity vendor) {
         vendorRepository.save(vendor);
     }
-
-//    teste
 }

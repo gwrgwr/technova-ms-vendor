@@ -5,6 +5,8 @@ import com.technova.user.PhoneNumber;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+
 @Document(collection = "vendor")
 public class VendorEntity {
     private ObjectId id;
@@ -18,10 +20,12 @@ public class VendorEntity {
     private String name;
 
     private String username;
-    
+
     private String email;
     
     private String password;
+
+    private String role;
     
     private Address address;
     
@@ -91,6 +95,14 @@ public class VendorEntity {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Address getAddress() {
         return address;
     }
@@ -110,7 +122,7 @@ public class VendorEntity {
     public VendorEntity() {
     }
 
-    public VendorEntity(ObjectId id, String companyName, String companyType, String companyRegistrationNumber, String name, String username, String email, String password, Address address, PhoneNumber phoneNumber) {
+    public VendorEntity(ObjectId id, String companyName, String companyType, String companyRegistrationNumber, String name, String username, String email, String password, String role, Address address, PhoneNumber phoneNumber) {
         this.id = id;
         this.companyName = companyName;
         this.companyType = companyType;
@@ -119,6 +131,7 @@ public class VendorEntity {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
