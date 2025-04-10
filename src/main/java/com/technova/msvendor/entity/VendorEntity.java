@@ -3,12 +3,15 @@ package com.technova.msvendor.entity;
 import com.technova.user.Address;
 import com.technova.user.PhoneNumber;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
 @Document(collection = "vendor")
 public class VendorEntity {
+
+    @Id
     private ObjectId id;
     
     private String companyName;

@@ -49,4 +49,14 @@ public class RabbitConfiguration {
     public Binding vendorLoginBinding(Queue vendorLoginQueue, Exchange vendorExchange) {
         return BindingBuilder.bind(vendorLoginQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_LOGIN_REQUEST_ROUTING_KEY).noargs();
     }
+
+    @Bean
+    public Queue vendorFindByIdQueue() {
+        return new Queue(RabbitVendorConstants.VENDOR_FIND_BY_ID_REQUEST_QUEUE, true);
+    }
+
+    @Bean
+    public Binding vendorFindByIdBinding(Queue vendorFindByIdQueue, Exchange vendorExchange) {
+        return BindingBuilder.bind(vendorFindByIdQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_FIND_BY_ID_REQUEST_ROUTING_KEY).noargs();
+    }
 }
