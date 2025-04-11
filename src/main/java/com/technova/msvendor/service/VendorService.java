@@ -4,6 +4,7 @@ import com.technova.Result;
 import com.technova.msvendor.entity.VendorEntity;
 import com.technova.msvendor.mapper.VendorMapper;
 import com.technova.msvendor.repository.VendorRepository;
+import com.technova.user.dto.PhoneNumber;
 import com.technova.vendor.constants.RabbitVendorConstants;
 import com.technova.vendor.dto.VendorCreateDTO;
 import com.technova.vendor.dto.VendorFindDTO;
@@ -25,10 +26,22 @@ public class VendorService {
         return vendorRepository.findByEmail(email).orElse(null);
     }
 
+    public VendorEntity getVendorByCompanyName(String companyName) {
+        return vendorRepository.findByCompanyName(companyName).orElse(null);
+    }
+
+    public VendorEntity getVendorByCompanyRegistrationNumber(String companyRegistrationNumber) {
+        return vendorRepository.findByCompanyRegistrationNumber(companyRegistrationNumber).orElse(null);
+    }
+
+    public VendorEntity getVendorByPhoneNumber(PhoneNumber phoneNumber) {
+        return vendorRepository.findByPhoneNumber(phoneNumber).orElse(null);
+    }
+
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_SAVE_REQUEST_QUEUE)
     public Result<VendorResponseDTO> saveVendor(VendorCreateDTO dto) {
-        VendorEntity vendorEntity = getVendorByEmail(dto.getEmail());
-        if (vendorEntity != null) {
+        System.out.println(dto.getEmail());
+        if (getVendorByEmail(dto.getEmail()) != null || getVendorByCompanyName(dto.getCompanyName())  != null || getVendorByCompanyRegistrationNumber(dto.getCompanyRegistrationNumber()) != null || getVendorByPhoneNumber(dto.getPhoneNumber()) != null) {
             return Result.error(new VendorAlreadyExistsException("Vendor already exists"));
         }
         return Result.success(VendorMapper.toResponseDTO(vendorRepository.save(VendorMapper.toEntity(dto))));

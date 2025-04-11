@@ -1,29 +1,34 @@
 package com.technova.msvendor.entity;
 
-import com.technova.user.Address;
-import com.technova.user.PhoneNumber;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.technova.user.dto.Address;
+import com.technova.user.dto.PhoneNumber;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.ArrayList;
 
 @Document(collection = "vendor")
 public class VendorEntity {
 
     @Id
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
-    
+
+    @Indexed(unique = true)
     private String companyName;
     
     private String companyType;
-    
+
+    @Indexed(unique = true)
     private String companyRegistrationNumber;
 
     private String name;
 
     private String username;
 
+    @Indexed(unique = true)
     private String email;
     
     private String password;
@@ -31,7 +36,8 @@ public class VendorEntity {
     private String role;
     
     private Address address;
-    
+
+    @Indexed(unique = true)
     private PhoneNumber phoneNumber;
 
     public ObjectId getId() {

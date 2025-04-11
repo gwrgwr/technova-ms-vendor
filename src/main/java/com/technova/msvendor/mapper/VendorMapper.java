@@ -12,7 +12,8 @@ public class VendorMapper {
 
     public static VendorResponseDTO toResponseDTO (VendorEntity entity) {
         VendorResponseDTO dto = new VendorResponseDTO();
-        dto.setId(entity.getId());
+        dto.setId(entity.getId().toHexString());
+        dto.setCompanyName(entity.getCompanyName());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
         dto.setRole(entity.getRole());
