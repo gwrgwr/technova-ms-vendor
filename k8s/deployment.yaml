@@ -22,10 +22,7 @@ spec:
             - containerPort: 8080
           env:
             - name: MONGODB_URI_MS_VENDOR
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-ms-vendor
-                  key: MONGODB_URI_MS_VENDOR
+              value: "mongodb+srv://murilomassa72:t0SnsRhgENyGcKG9@technova.dvmjo4p.mongodb.net/technova-ms-vendor?retryWrites=true&w=majority&appName=Technova"
             - name: RABBITMQ_USER
               value: "admin"
             - name: RABBITMQ_PASS
