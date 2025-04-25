@@ -24,7 +24,7 @@ spec:
             - name: MONGODB_URI_MS_VENDOR
               valueFrom:
                 secretKeyRef:
-                  name: mongdb-ms-vendor
+                  name: mongodb-ms-vendor
                   key: MONGODB_URI_MS_VENDOR
             - name: RABBITMQ_USER
               value: "admin"
