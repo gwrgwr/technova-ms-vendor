@@ -1,50 +1,59 @@
 package com.technova.msvendor.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.technova.user.dto.Address;
 import com.technova.user.dto.PhoneNumber;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.technova.vendor.enums.VendorStatus;
+import jakarta.persistence.*;
 
-@Document(collection = "vendor")
+@Entity
 public class VendorEntity {
 
     @Id
-    @JsonSerialize(using = ToStringSerializer.class)
-    private ObjectId id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-    @Indexed(unique = true)
+    @Column(unique = true, nullable = false)
     private String companyName;
     
     private String companyType;
 
-    @Indexed(unique = true)
+    @Column(unique = true, nullable = false)
     private String companyRegistrationNumber;
 
     private String name;
 
+    public VendorStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(VendorStatus status) {
+        this.status = status;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private VendorStatus status = VendorStatus.ACTIVE;
+
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @Indexed(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     
     private String password;
 
     private String role;
-    
+
+    @Column(unique = true, nullable = false)
     private Address address;
 
-    @Indexed(unique = true)
+    @Column(unique = true, nullable = false)
     private PhoneNumber phoneNumber;
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -131,7 +140,7 @@ public class VendorEntity {
     public VendorEntity() {
     }
 
-    public VendorEntity(ObjectId id, String companyName, String companyType, String companyRegistrationNumber, String name, String username, String email, String password, String role, Address address, PhoneNumber phoneNumber) {
+    public VendorEntity(String id, String companyName, String companyType, String companyRegistrationNumber, String name, String username, String email, String password, String role, Address address, PhoneNumber phoneNumber) {
         this.id = id;
         this.companyName = companyName;
         this.companyType = companyType;

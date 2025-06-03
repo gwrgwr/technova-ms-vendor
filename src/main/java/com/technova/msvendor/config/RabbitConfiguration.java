@@ -59,4 +59,54 @@ public class RabbitConfiguration {
     public Binding vendorFindByIdBinding(Queue vendorFindByIdQueue, Exchange vendorExchange) {
         return BindingBuilder.bind(vendorFindByIdQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_FIND_BY_ID_REQUEST_ROUTING_KEY).noargs();
     }
+
+    @Bean
+    public Queue vendorUpdateQueue() {
+        return new Queue(RabbitVendorConstants.VENDOR_UPDATE_REQUEST_QUEUE, true);
+    }
+
+    @Bean
+    public Binding vendorUpdateBinding(Queue vendorUpdateQueue, Exchange vendorExchange) {
+        return BindingBuilder.bind(vendorUpdateQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_UPDATE_REQUEST_ROUTING_KEY).noargs();
+    }
+
+    @Bean
+    public Queue vendorDeleteQueue() {
+        return new Queue(RabbitVendorConstants.VENDOR_DELETE_REQUEST_QUEUE, true);
+    }
+
+    @Bean
+    public Binding vendorDeleteBinding(Queue vendorDeleteQueue, Exchange vendorExchange) {
+        return BindingBuilder.bind(vendorDeleteQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_DELETE_REQUEST_ROUTING_KEY).noargs();
+    }
+
+    @Bean
+    public Queue vendorSoftDeleteQueue() {
+        return new Queue(RabbitVendorConstants.VENDOR_SOFT_DELETE_REQUEST_QUEUE, true);
+    }
+
+    @Bean
+    public Binding vendorSoftDeleteBinding(Queue vendorSoftDeleteQueue, Exchange vendorExchange) {
+        return BindingBuilder.bind(vendorSoftDeleteQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_SOFT_DELETE_REQUEST_ROUTING_KEY).noargs();
+    }
+
+    @Bean
+    public Queue vendorActiveQueue() {
+        return new Queue(RabbitVendorConstants.VENDOR_ACTIVE_REQUEST_QUEUE, true);
+    }
+
+    @Bean
+    public Binding vendorActiveBinding(Queue vendorActiveQueue, Exchange vendorExchange) {
+        return BindingBuilder.bind(vendorActiveQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_ACTIVE_REQUEST_ROUTING_KEY).noargs();
+    }
+
+    @Bean
+    public Queue vendorGetProductsQueue() {
+        return new Queue(RabbitVendorConstants.VENDOR_GET_PRODUCTS_REQUEST_QUEUE, true);
+    }
+
+    @Bean
+    public Binding vendorGetProductsBinding(Queue vendorGetProductsQueue, Exchange vendorExchange) {
+        return BindingBuilder.bind(vendorGetProductsQueue).to(vendorExchange).with(RabbitVendorConstants.VENDOR_GET_PRODUCTS_REQUEST_ROUTING_KEY).noargs();
+    }
 }

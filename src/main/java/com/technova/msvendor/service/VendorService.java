@@ -2,69 +2,32 @@ package com.technova.msvendor.service;
 
 import com.technova.Result;
 import com.technova.msvendor.entity.VendorEntity;
-import com.technova.msvendor.mapper.VendorMapper;
-import com.technova.msvendor.repository.VendorRepository;
 import com.technova.user.dto.PhoneNumber;
-import com.technova.vendor.constants.RabbitVendorConstants;
 import com.technova.vendor.dto.VendorCreateDTO;
 import com.technova.vendor.dto.VendorFindDTO;
-import com.technova.vendor.dto.VendorLoginRequest;
 import com.technova.vendor.dto.VendorResponseDTO;
-import com.technova.vendor.exceptions.VendorAlreadyExistsException;
-import com.technova.vendor.exceptions.VendorNotFoundException;
-import org.bson.types.ObjectId;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.technova.vendor.dto.VendorUpdateDTO;
 
-@Service
-public class VendorService {
-    @Autowired
-    private VendorRepository vendorRepository;
+public interface VendorService {
+    VendorEntity getVendorByEmail(String email);
 
-    public VendorEntity getVendorByEmail(String email) {
-        return vendorRepository.findByEmail(email).orElse(null);
-    }
+    VendorEntity getVendorByCompanyName(String companyName);
 
-    public VendorEntity getVendorByCompanyName(String companyName) {
-        return vendorRepository.findByCompanyName(companyName).orElse(null);
-    }
+    VendorEntity getVendorByCompanyRegistrationNumber(String companyRegistrationNumber);
 
-    public VendorEntity getVendorByCompanyRegistrationNumber(String companyRegistrationNumber) {
-        return vendorRepository.findByCompanyRegistrationNumber(companyRegistrationNumber).orElse(null);
-    }
+    VendorEntity getVendorByPhoneNumber(PhoneNumber phoneNumber);
 
-    public VendorEntity getVendorByPhoneNumber(PhoneNumber phoneNumber) {
-        return vendorRepository.findByPhoneNumber(phoneNumber).orElse(null);
-    }
+    Result<VendorResponseDTO> saveVendor(VendorCreateDTO dto);
 
-    @RabbitListener(queues = RabbitVendorConstants.VENDOR_SAVE_REQUEST_QUEUE)
-    public Result<VendorResponseDTO> saveVendor(VendorCreateDTO dto) {
-        System.out.println(dto.getEmail());
-        if (getVendorByEmail(dto.getEmail()) != null || getVendorByCompanyName(dto.getCompanyName())  != null || getVendorByCompanyRegistrationNumber(dto.getCompanyRegistrationNumber()) != null || getVendorByPhoneNumber(dto.getPhoneNumber()) != null) {
-            return Result.error(new VendorAlreadyExistsException("Vendor already exists"));
-        }
-        return Result.success(VendorMapper.toResponseDTO(vendorRepository.save(VendorMapper.toEntity(dto))));
-    }
+    Result<VendorResponseDTO> loginVendor(String email);
 
-    @RabbitListener(queues = RabbitVendorConstants.VENDOR_LOGIN_REQUEST_QUEUE)
-    public Result<VendorResponseDTO> loginVendor(String email) {
-        VendorEntity vendorEntity = getVendorByEmail(email);
-        if (vendorEntity == null) {
-            return Result.error(new VendorNotFoundException("Vendor not found"));
-        }
-        return Result.success(VendorMapper.toResponseDTO(vendorEntity));
-    }
+    Result<VendorFindDTO> findVendorById(String id);
 
-    @RabbitListener(queues = RabbitVendorConstants.VENDOR_FIND_BY_ID_REQUEST_QUEUE)
-    public Result<VendorFindDTO> findVendorById(String id) {
-        if (!ObjectId.isValid(id)) {
-            return Result.error(new VendorNotFoundException("Vendor not found"));
-        }
-        VendorEntity vendorEntity = vendorRepository.findById(new ObjectId(id)).orElse(null);
-        if (vendorEntity == null) {
-            return Result.error(new VendorNotFoundException("Vendor not found"));
-        }
-        return Result.success(VendorMapper.toFindDTO(vendorEntity));
-    }
+    Result<VendorResponseDTO> updateVendor(String id, VendorUpdateDTO dto);
+
+    void deleteVendor(String id);
+
+    void softDeleteVendor(String id);
+
+    Result<VendorResponseDTO> activateVendor(String id);
 }

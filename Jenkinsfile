@@ -21,12 +21,12 @@ def POD_LABEL = 'kaniko'
         }
 
         stage('Checkout Helm Chart') {
-                    git url: 'https://github.com/gwrgwr/technova-helm.git', branch: 'master', credentialsId: 'github-auth'
+                    git url: 'https://github.com/muriloramos-dev/technova-helm.git', branch: 'master', credentialsId: 'github-auth'
                 }
 
                 stage('Deploy to Kubernetes') {
                     container('kubectl') {
-                        withKubeConfig([credentialsId: 'jenkins-token', namespace: 'jenkins', serverUrl: 'https://192.168.49.2:8443']) {
+                        withKubeConfig([credentialsId: 'jenkins-token', namespace: 'jenkins', serverUrl: 'https://b680f6d3-8591-4b5a-a237-696f27bc05b8.k8s.ondigitalocean.com']) {
                                     sh """
                                         helm upgrade --install technova-ms-vendor ./charts/vendor/ \
                                         --values values.yaml \

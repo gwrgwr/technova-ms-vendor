@@ -12,7 +12,7 @@ public class VendorMapper {
 
     public static VendorResponseDTO toResponseDTO (VendorEntity entity) {
         VendorResponseDTO dto = new VendorResponseDTO();
-        dto.setId(entity.getId().toHexString());
+        dto.setId(entity.getId());
         dto.setCompanyName(entity.getCompanyName());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
@@ -24,7 +24,7 @@ public class VendorMapper {
 
     public static VendorFindDTO toFindDTO (VendorEntity entity) {
         VendorFindDTO dto = new VendorFindDTO();
-        dto.setId(entity.getId().toHexString());
+        dto.setId(entity.getId());
         dto.setCompanyName(entity.getCompanyName());
         dto.setCompanyType(entity.getCompanyType());
         dto.setCompanyRegistrationNumber(entity.getCompanyRegistrationNumber());
