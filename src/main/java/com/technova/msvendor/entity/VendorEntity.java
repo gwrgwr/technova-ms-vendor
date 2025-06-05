@@ -5,6 +5,8 @@ import com.technova.user.dto.PhoneNumber;
 import com.technova.vendor.enums.VendorStatus;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class VendorEntity {
 
@@ -22,14 +24,6 @@ public class VendorEntity {
 
     private String name;
 
-    public VendorStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(VendorStatus status) {
-        this.status = status;
-    }
-
     @Enumerated(EnumType.STRING)
     private VendorStatus status = VendorStatus.ACTIVE;
 
@@ -43,11 +37,16 @@ public class VendorEntity {
 
     private String role;
 
+    @Embedded
     @Column(unique = true, nullable = false)
     private Address address;
 
     @Column(unique = true, nullable = false)
+    @Embedded
     private PhoneNumber phoneNumber;
+
+    @ElementCollection
+    private List<String> productIds = List.of();
 
     public String getId() {
         return id;
@@ -79,6 +78,14 @@ public class VendorEntity {
 
     public void setCompanyRegistrationNumber(String companyRegistrationNumber) {
         this.companyRegistrationNumber = companyRegistrationNumber;
+    }
+
+    public VendorStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(VendorStatus status) {
+        this.status = status;
     }
 
     public String getName() {
@@ -165,5 +172,13 @@ public class VendorEntity {
         this.role = role;
         this.address = address;
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<String> getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds;
     }
 }

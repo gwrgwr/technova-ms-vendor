@@ -23,11 +23,13 @@ public interface VendorService {
 
     Result<VendorFindDTO> findVendorById(String id);
 
-    Result<VendorResponseDTO> updateVendor(String id, VendorUpdateDTO dto);
+    Result<VendorResponseDTO> updateVendor(VendorUpdateDTO dto);
 
     void deleteVendor(String id);
 
     void softDeleteVendor(String id);
 
     Result<VendorResponseDTO> activateVendor(String id);
+
+    void addProductToVendor(String vendorId, String productId);
 }

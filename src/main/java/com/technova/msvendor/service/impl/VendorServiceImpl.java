@@ -77,8 +77,9 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public Result<VendorResponseDTO> updateVendor(String id, VendorUpdateDTO dto) {
-        VendorEntity vendorEntity = vendorRepository.findById(id).orElse(null);
+    @RabbitListener(queues = RabbitVendorConstants.VENDOR_UPDATE_REQUEST_QUEUE)
+    public Result<VendorResponseDTO> updateVendor(VendorUpdateDTO dto) {
+        VendorEntity vendorEntity = vendorRepository.findById(dto.getId()).orElse(null);
         if (vendorEntity == null) {
             return Result.error(new VendorNotFoundException("Vendor not found"));
         }
@@ -181,4 +182,11 @@ public class VendorServiceImpl implements VendorService {
         vendorRepository.save(vendorEntity);
         return Result.success(VendorMapper.toResponseDTO(vendorEntity));
     }
+
+    @Override
+    @RabbitListener(queues = "RabbitVendorConstants.VENDOR_ADD_PRODUCT_TO_VENDOR_REQUEST_QUEUE")
+    public void addProductToVendor(String vendorId, String productId) {
+
+    }
+
 }
