@@ -184,9 +184,9 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    @RabbitListener(queues = "RabbitVendorConstants.VENDOR_ADD_PRODUCT_TO_VENDOR_REQUEST_QUEUE")
+//    @RabbitListener(queues = "RabbitVendorConstants.VENDOR_ADD_PRODUCT_TO_VENDOR_REQUEST_QUEUE")
     public void addProductToVendor(String vendorId, String productId) {
-
+// TODO
     }
 
 }
