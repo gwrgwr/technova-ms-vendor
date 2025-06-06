@@ -16,6 +16,7 @@ import com.technova.vendor.enums.VendorStatus;
 import com.technova.vendor.exceptions.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class VendorServiceImpl implements VendorService {
@@ -27,26 +28,31 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public VendorEntity getVendorByEmail(String email) {
         return vendorRepository.findByEmail(email).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public VendorEntity getVendorByCompanyName(String companyName) {
         return vendorRepository.findByCompanyName(companyName).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public VendorEntity getVendorByCompanyRegistrationNumber(String companyRegistrationNumber) {
         return vendorRepository.findByCompanyRegistrationNumber(companyRegistrationNumber).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public VendorEntity getVendorByPhoneNumber(PhoneNumber phoneNumber) {
         return vendorRepository.findByPhoneNumber(phoneNumber).orElse(null);
     }
 
     @Override
+    @Transactional
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_SAVE_REQUEST_QUEUE)
     public Result<VendorResponseDTO> saveVendor(VendorCreateDTO dto) {
         System.out.println(dto.getEmail());
@@ -57,6 +63,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
+    @Transactional
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_LOGIN_REQUEST_QUEUE)
     public Result<VendorResponseDTO> loginVendor(String email) {
         VendorEntity vendorEntity = getVendorByEmail(email);
@@ -67,6 +74,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_FIND_BY_ID_REQUEST_QUEUE)
     public Result<VendorFindDTO> findVendorById(String id) {
         VendorEntity vendorEntity = vendorRepository.findById(id).orElse(null);
@@ -77,6 +85,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
+    @Transactional
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_UPDATE_REQUEST_QUEUE)
     public Result<VendorResponseDTO> updateVendor(VendorUpdateDTO dto) {
         VendorEntity vendorEntity = vendorRepository.findById(dto.getId()).orElse(null);
@@ -150,6 +159,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
+    @Transactional
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_DELETE_REQUEST_QUEUE)
     public void deleteVendor(String id) {
         VendorEntity vendorEntity = vendorRepository.findById(id).orElse(null);
@@ -161,6 +171,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
+    @Transactional
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_SOFT_DELETE_REQUEST_QUEUE)
     public void softDeleteVendor(String id) {
         VendorEntity vendorEntity = vendorRepository.findById(id).orElse(null);
@@ -172,6 +183,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
+    @Transactional
     @RabbitListener(queues = RabbitVendorConstants.VENDOR_ACTIVE_REQUEST_QUEUE)
     public Result<VendorResponseDTO> activateVendor(String id) {
         VendorEntity vendorEntity = vendorRepository.findById(id).orElse(null);
